@@ -9,7 +9,7 @@ Aplicação Java simples e funcional que realiza e utiliza uma API chamada <b>Gu
 - Listar autores salvos no banco
 - Listar autores vivos em um determinado ano
 - Listar livros em um determinado idioma
-- Listar top 5 mais livros baixados
+- Listar top 5 livros mais baixados
 - listar autores por nome
 
 ## ⚙️ Tecnologias
@@ -22,9 +22,20 @@ Aplicação Java simples e funcional que realiza e utiliza uma API chamada <b>Gu
 - **Spring Boot**
 
 ## 🖥️ Exemplo de Execução
+**Como e listados os livros:**
+![](Imagens/lista-livros.png)
 
-![Texto alternativo](C:\Users\Bernardo-Botelho\Desktop\certificados faltando.png)
 
+
+
+**Como e listados os autores:**
+![](Imagens/lista-autores.png)
+
+
+
+
+**Como e listado os livros mais baixados:**
+![](Imagens/livros-mais-baixados.png)
 ## 👨🏻‍💻 Autor
 
 - Bernardo Botelho

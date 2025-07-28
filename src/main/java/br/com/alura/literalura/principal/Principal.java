@@ -9,26 +9,26 @@ import br.com.alura.literalura.service.ConsomeApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner scan = new Scanner(System.in);
     ObjectMapper mapper = new ObjectMapper();
     private final String URL_BASE = "https://gutendex.com/books/?search=";
     private String menu = """
-            1- Buscar livro pelo nome e salvar no banco
+            \n1- Buscar livro pelo nome e salvar no banco
             2- Listar todos livros salvos
             3- Listar autores registrados
             4- Listar autores vivos em um determinado ano
             5- Listar livros em um determinado idioma
+            6- Listar top 5 mais livros baixados
+            7- listar autores por nome
             0- sair
             """;
 
     private LivroRepository livroRepository;
     private AutorRepository autorRepository;
-
 
 
     int opcao;
@@ -58,6 +58,10 @@ public class Principal {
                 listarAutoresVivosPorAno();
             } else if (opcao == 5) {
                 buscarLivroPorIdioma();
+            } else if (opcao == 6) {
+                listarTop5LivrosBaixados();
+            } else if (opcao == 7) {
+                buscarAutorPorNome();
             } else {
                 System.out.println("Opção invalida...");
             }
@@ -116,7 +120,6 @@ public class Principal {
     }
 
 
-
     private void listarLivros() {
         List<Livro> livros = livroRepository.findAll();
         livros.forEach(System.out::println);
@@ -147,24 +150,44 @@ public class Principal {
         }
     }
 
-    private void buscarLivroPorIdioma(){
+    private void buscarLivroPorIdioma() {
         System.out.print("Escolhas o idioma que quer realizar a busca:");
-        System.out.print("\nes- espanhol\n"+"en- inglês\n"+"fr- francês\n"+"pt- português\n");
+        System.out.print("\nes- espanhol\n" + "en- inglês\n" + "fr- francês\n" + "pt- português\n");
         System.out.print("Digite o idioma: ");
         String idioma = scan.nextLine();
 
         List<Livro> lirvos = livroRepository.findAll();
 
-        List<Livro> livroPoridioma= lirvos.stream()
+        List<Livro> livroPoridioma = lirvos.stream()
                 .filter(livros -> livros.getIdioma().equalsIgnoreCase(idioma))
                 .toList();
 
-        if (livroPoridioma.isEmpty()){
+        if (livroPoridioma.isEmpty()) {
             System.out.println("\nNenhum livro nesse idioma\n");
-        }else {
+        } else {
             livroPoridioma.forEach(System.out::println);
         }
     }
 
+    private void listarTop5LivrosBaixados() {
+        List<Livro> top5 = livroRepository.findTop5ByOrderByNumeroDownloadDesc();
+        System.out.println("\nTop 5 livros mais baixados:");
+        top5.forEach(livro -> {
+            System.out.print("\nLivro: "+ livro.getTitulo()+ "\n"+"Numero de download: "+ livro.getNumeroDownload()+"\n");
+        });
+    }
 
+    public void buscarAutorPorNome() {
+        System.out.print("Digite o nome do autor que deseja buscar: ");
+        String nome = scan.nextLine().trim();
+               List<Autor> autores = autorRepository.findByNomeContainingIgnoreCase(nome);
+               //Collections.reverse(autores);
+
+        if (autores.isEmpty()) {
+            System.out.println("\nAutor não existe.");
+        } else {
+            autores.forEach(System.out::println);
+        }
+
+    }
 }

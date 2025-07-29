@@ -22,7 +22,7 @@ public class Principal {
             3- Listar autores registrados
             4- Listar autores vivos em um determinado ano
             5- Listar livros em um determinado idioma
-            6- Listar top 5 mais livros baixados
+            6- Listar top 5 livros mais baixados
             7- listar autores por nome
             0- sair
             """;
